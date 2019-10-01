@@ -1,0 +1,158 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+@model List<ExcelExam.Data.DatabaseModel.Sale>
+<h1>@ViewData["Title"]</h1>
+<!-- Search form -->
+<div class="input-group md-form form-sm form-1 pl-0">
+    <div class="input-group-prepend" onclick="serach()">
+        <span class="input-group-text purple lighten-3" id="basic-text1">
+           serach
+        </span>
+    </div>
+    <input class="form-control my-0 py-1" type="text" placeholder="Search" id="key" aria-label="Search">
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a href="/Home/Privacy?page=@ViewData["p"]&sort=1&infoSort=@ViewData["s"]">
+                    @Html.DisplayNameFor(model => model[0].Id)
+                </a>
+            </th>
+            <th>
+                <a href="/Home/Privacy?page=0&sort=2&infoSort=@ViewData["s"]">
+
+                    @Html.DisplayNameFor(model => model[0].CityName)
+                </a>
+            </th>
+            <th>
+
+                <a href="/Home/Privacy?page=0&sort=3&infoSort=@ViewData["s"]">
+                    @Html.DisplayNameFor(model => model[0].NameProduct)
+                </a>
+            </th>
+            <th>
+                <a href="/Home/Privacy?page=0&sort=4&infoSort=@ViewData["s"]">
+                    @Html.DisplayNameFor(model => model[0].ProductCode)
+                </a>
+            </th>
+            <th>
+                <a href="/Home/Privacy?page=0&sort=5&infoSort=@ViewData["s"]">
+                    @Html.DisplayNameFor(model => model[0].PersonFullName)
+                </a>
+            </th>
+            <th>
+                <a href="/Home/Privacy?page=0&sort=6&infoSort=@ViewData["s"]">
+                    @Html.DisplayNameFor(model => model[0].Price)
+                </a>
+            </th>
+            <th>
+                delete
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameProduct)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonFullName)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td onclick="remove(@item.Id)" style="color:red">
+                    delete
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<ul class="pagination">
+    <li class="page-item"><a class="page-link" onclick="previous()">Previous</a></li>
+    @{
+        if (int.Parse(@ViewData["pageStart"].ToString()) > 1)
+        {
+            <li class="page-item"><a class="page-link">...</a></li>
+
+        }
+        for (int i = int.Parse(@ViewData["pageStart"].ToString()); i < int.Parse(ViewData["lc"].ToString()); i++)
+        {
+            if (i < (int.Parse(@ViewData["pageStart"].ToString()) + 10))
+            {
+                <li class="page-item"><a class="page-link" onclick="pageing(@i)" href="/Home/Privacy?page=@i&sort=0">@i</a></li>
+            }
+            if (i > (int.Parse(@ViewData["pageStart"].ToString()) + 10))
+            {
+                <li class="page-item"><a class="page-link">...</a></li>
+                break;
+            }
+        }
+    }
+    <li class="page-item"><a class="page-link" onclick="next()">Next</a></li>
+</ul>
+<script>
+    var x = 0
+    function pageing(s) {
+        x = s;
+    }
+    function next() {
+        var z = getUrlParameter("page");
+        if (z == 0)
+            z++;
+        window.location.assign("/Home/Privacy?page=" + (++z) + "&sort=0");
+    }
+    function previous() {
+        var z = getUrlParameter("page");
+        if (z != 0 && z != 1)
+            window.location.assign("/Home/Privacy?page=" + (--z) + "&sort=0");
+    }
+    function serach() {
+        var s = key.value;
+
+        window.location.assign("/Home/Privacy?page=0&sort=0&key=" + s + "");
+
+    }
+    function remove(id) {
+        var r = confirm("Press a button!\nEither OK or Cancel.\nThe button you pressed will be displayed in the result window.");
+        if (r == true) {
+            var z = getUrlParameter("page");
+            window.location.assign("/Home/Privacy?page=" + (--z) + "&sort=0&delete=" + id + "");
+        } else {
+
+        }
+
+
+    }
+    function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+</script>
