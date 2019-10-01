@@ -97,6 +97,8 @@ namespace ExcelExam.Controllers
             ViewData["lc"] = context.Sales.Count();
             return View();
         }
+        //
+        //
        /// <summary>
        /// نمایش اطلاعات دسته بندی حذف و جستجو برای هر جستجو حدود 1 تا 2 دقیقه زمان لازم است چ.ون داده ها یک میلیون هستش
        /// </summary>
